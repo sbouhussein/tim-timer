@@ -10,62 +10,64 @@
     <meta name="theme-color" content="#0f172a" />
     <title>Tim's Timer</title>
   </head>
-  <body class="bg-slate-950 text-slate-100 min-h-screen">
-    <div id="app" class="max-w-lg mx-auto px-4 py-6 pb-24">
-      <h1 class="text-2xl font-bold mb-6">Tim's Timer</h1>
+  <body class="bg-slate-950 text-slate-100 min-h-screen antialiased selection:bg-indigo-500/30">
+    <div id="app" class="max-w-lg mx-auto px-4 py-8 pb-24">
+      <div class="mb-8 flex items-center gap-2.5">
+        <h1 class="text-2xl font-bold tracking-tight">Tim's Timer</h1>
+      </div>
 
-      <div id="toast" class="hidden fixed top-4 left-1/2 -translate-x-1/2 z-50 rounded-lg bg-amber-500 text-slate-950 font-semibold px-4 py-2 shadow-lg"></div>
+      <div id="toast" class="hidden fixed top-4 left-1/2 -translate-x-1/2 z-50 rounded-full bg-amber-400 text-slate-950 font-semibold px-4 py-2 shadow-lg shadow-amber-950/40 ring-1 ring-amber-300/50"></div>
 
       <!-- SETUP VIEW -->
-      <section id="setup-view" class="space-y-6">
+      <section id="setup-view" class="space-y-6 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-5 shadow-xl shadow-black/20 backdrop-blur-sm">
         <div class="flex items-end gap-3">
           <div class="flex-1">
             <label class="block text-sm text-slate-400 mb-1" for="deadline-input">Be done by</label>
-            <input id="deadline-input" type="time" class="w-full rounded-lg bg-slate-800 border border-slate-700 px-3 py-2" />
+            <input id="deadline-input" type="time" class="w-full rounded-lg bg-slate-800/80 border border-slate-700 px-3 py-2 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500" />
           </div>
           <div class="flex-1 text-right">
             <div class="text-sm text-slate-400">Start by</div>
-            <div id="start-by-readout" class="text-2xl font-semibold tabular-nums">--:--</div>
+            <div id="start-by-readout" class="text-2xl font-semibold tabular-nums text-indigo-300">--:--</div>
           </div>
         </div>
 
         <form id="add-task-form" class="flex gap-2">
           <input id="task-name-input" type="text" placeholder="Task name" required
-            class="flex-1 min-w-0 rounded-lg bg-slate-800 border border-slate-700 px-3 py-2" />
+            class="flex-1 min-w-0 rounded-lg bg-slate-800/80 border border-slate-700 px-3 py-2 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500" />
           <input id="task-estimate-input" type="number" min="1" step="1" placeholder="min" required
-            class="w-20 rounded-lg bg-slate-800 border border-slate-700 px-3 py-2" />
-          <button type="submit" class="rounded-lg bg-indigo-600 px-4 py-2 font-medium">Add</button>
+            class="w-20 rounded-lg bg-slate-800/80 border border-slate-700 px-3 py-2 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500" />
+          <button type="submit" class="rounded-lg bg-indigo-600 px-4 py-2 font-medium shadow-md shadow-indigo-950/40 transition-colors hover:bg-indigo-500 active:scale-[0.98]">Add</button>
         </form>
 
         <ul id="task-list" class="space-y-2"></ul>
 
         <div class="flex gap-2 border-t border-slate-800 pt-4">
           <select id="template-select"
-            class="flex-1 min-w-0 rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm">
+            class="flex-1 min-w-0 rounded-lg bg-slate-800/80 border border-slate-700 px-3 py-2 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500">
             <option value="">Load template…</option>
           </select>
           <button id="load-template-button" type="button"
-            class="rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm">Load</button>
+            class="rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm transition-colors hover:bg-slate-700 hover:border-slate-600 active:scale-[0.98]">Load</button>
           <button id="delete-template-button" type="button" disabled
-            class="rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm disabled:opacity-40">Delete</button>
+            class="rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm transition-colors hover:bg-slate-700 hover:border-slate-600 active:scale-[0.98] disabled:opacity-40 disabled:hover:bg-slate-800 disabled:hover:border-slate-700">Delete</button>
           <button id="save-template-button" type="button"
-            class="rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm whitespace-nowrap">Save as…</button>
+            class="rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm whitespace-nowrap transition-colors hover:bg-slate-700 hover:border-slate-600 active:scale-[0.98]">Save as…</button>
         </div>
 
         <button id="start-button" disabled
-          class="w-full rounded-lg bg-emerald-600 disabled:bg-slate-700 disabled:text-slate-500 py-3 font-semibold text-lg">
+          class="w-full rounded-lg bg-gradient-to-r from-emerald-600 to-emerald-500 disabled:from-slate-700 disabled:to-slate-700 disabled:text-slate-500 py-3 font-semibold text-lg shadow-lg shadow-emerald-950/40 disabled:shadow-none transition-all hover:from-emerald-500 hover:to-emerald-400 active:scale-[0.99]">
           Start
         </button>
       </section>
 
       <!-- RUNNING VIEW -->
-      <section id="running-view" class="hidden space-y-6">
-        <div id="delta-banner" class="rounded-lg px-4 py-2 text-center font-medium"></div>
+      <section id="running-view" class="hidden space-y-6 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-5 shadow-xl shadow-black/20 backdrop-blur-sm">
+        <div id="delta-banner" class="rounded-xl px-4 py-2 text-center font-medium transition-colors"></div>
 
-        <div id="overrun-banner" class="hidden rounded-lg px-4 py-2 bg-amber-900/60 text-amber-200 space-y-2">
+        <div id="overrun-banner" class="hidden rounded-xl px-4 py-2 bg-amber-900/60 border border-amber-800/50 text-amber-200 space-y-2">
           <p id="overrun-banner-text" class="text-center text-sm font-medium"></p>
           <button id="shrink-plan-button" type="button"
-            class="w-full rounded-md bg-amber-500 text-slate-950 font-semibold text-sm py-1.5">
+            class="w-full rounded-md bg-amber-500 text-slate-950 font-semibold text-sm py-1.5 shadow-sm transition-colors hover:bg-amber-400 active:scale-[0.98]">
             Shrink remaining tasks
           </button>
         </div>
@@ -75,8 +77,8 @@
             <span>Working on</span>
             <span id="paused-pill" class="hidden text-amber-300 bg-amber-900/60 rounded-full px-2 py-0.5 text-xs font-semibold">Paused</span>
           </div>
-          <div id="current-task-name" class="text-3xl font-bold">—</div>
-          <div id="current-task-time-left" class="text-5xl font-bold tabular-nums mt-2">--:--</div>
+          <div id="current-task-name" class="text-3xl font-bold tracking-tight">—</div>
+          <div id="current-task-time-left" class="text-5xl font-bold tabular-nums mt-2 tracking-tight transition-colors">--:--</div>
         </div>
 
         <div class="flex justify-between text-sm text-slate-400 border-t border-slate-800 pt-3">
@@ -87,14 +89,19 @@
         <ul id="running-task-list" class="space-y-2"></ul>
 
         <div class="flex gap-2">
-          <button id="pause-button" class="flex-1 rounded-lg bg-slate-800 py-2 text-sm font-medium">
+          <button id="pause-button" class="flex-1 rounded-lg bg-slate-800 border border-slate-700 py-2 text-sm font-medium transition-colors hover:bg-slate-700 active:scale-[0.98]">
             Pause
           </button>
-          <button id="reset-button" class="flex-1 rounded-lg bg-slate-800 py-2 text-sm text-slate-400">
+          <button id="reset-button" class="flex-1 rounded-lg bg-slate-800 border border-slate-700 py-2 text-sm text-slate-400 transition-colors hover:bg-slate-700 hover:text-slate-300 active:scale-[0.98]">
             Reset
           </button>
         </div>
       </section>
+
+      <footer class="mt-10 pt-6 border-t border-slate-800/60 text-center space-y-3">
+        <p class="text-xs text-slate-500">Co-created by Majd Hatoum (Tim Jones) and Sami Bouhussein</p>
+        <div id="sponsors" class="flex flex-wrap items-center justify-center gap-4"></div>
+      </footer>
     </div>
     <script type="module" src="/src/main.js"></script>
   </body>

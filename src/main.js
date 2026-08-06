@@ -5,6 +5,7 @@ import { computePlannedSchedule, findCurrentTaskIndex } from './schedule.js'
 import { renderSetupView, renderRunningView, setView, showToast } from './render.js'
 import { createTicker } from './timer.js'
 import { requestPermission, notifyTaskExpired } from './notify.js'
+import { renderSponsors } from './sponsors.js'
 
 const $ = (id) => document.getElementById(id)
 
@@ -229,3 +230,5 @@ if (store.getState().timer.startedAt) {
 } else {
   enterSetupView()
 }
+
+renderSponsors()

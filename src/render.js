@@ -16,13 +16,13 @@ export function renderSetupView(state, { editingTaskId = null, templates = [] } 
     li.dataset.id = task.id
 
     if (task.id === editingTaskId) {
-      li.className = 'flex items-center gap-2 rounded-lg bg-slate-800 border border-indigo-600 px-3 py-2'
+      li.className = 'flex items-center gap-2 rounded-xl bg-slate-800 border border-indigo-500 ring-1 ring-indigo-500/30 px-3 py-2 shadow-sm'
 
       const nameInput = document.createElement('input')
       nameInput.type = 'text'
       nameInput.value = task.name
       nameInput.dataset.field = 'name'
-      nameInput.className = 'flex-1 min-w-0 rounded-md bg-slate-900 border border-slate-700 px-2 py-1'
+      nameInput.className = 'flex-1 min-w-0 rounded-md bg-slate-900 border border-slate-700 px-2 py-1 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500'
 
       const estimateInput = document.createElement('input')
       estimateInput.type = 'number'
@@ -30,13 +30,13 @@ export function renderSetupView(state, { editingTaskId = null, templates = [] } 
       estimateInput.step = '1'
       estimateInput.value = String(task.estimateMin)
       estimateInput.dataset.field = 'estimate'
-      estimateInput.className = 'w-16 rounded-md bg-slate-900 border border-slate-700 px-2 py-1'
+      estimateInput.className = 'w-16 rounded-md bg-slate-900 border border-slate-700 px-2 py-1 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500'
 
       li.append(nameInput, estimateInput)
       li.insertAdjacentHTML(
         'beforeend',
-        `<button type="button" data-action="save-edit" class="text-emerald-400 hover:text-emerald-300 px-1">✓</button>
-         <button type="button" data-action="cancel-edit" class="text-slate-500 hover:text-red-400 px-1">✕</button>`,
+        `<button type="button" data-action="save-edit" class="text-emerald-400 hover:text-emerald-300 px-1 transition-colors">✓</button>
+         <button type="button" data-action="cancel-edit" class="text-slate-500 hover:text-red-400 px-1 transition-colors">✕</button>`,
       )
       list.appendChild(li)
       nameInput.focus()
@@ -44,13 +44,13 @@ export function renderSetupView(state, { editingTaskId = null, templates = [] } 
       return
     }
 
-    li.className = 'flex items-center gap-2 rounded-lg bg-slate-800 border border-slate-700 px-3 py-2'
+    li.className = 'flex items-center gap-2 rounded-xl bg-slate-800/80 border border-slate-700 px-3 py-2 shadow-sm transition-colors hover:border-slate-600'
     li.innerHTML = `
       <span class="drag-handle text-slate-500 select-none">⠿</span>
       <span class="flex-1 truncate">${escapeHtml(task.name)}</span>
       <span class="text-slate-400 text-sm tabular-nums">${task.estimateMin} min</span>
-      <button type="button" data-action="edit" class="text-slate-500 hover:text-indigo-400 px-1">✎</button>
-      <button type="button" data-action="remove" class="text-slate-500 hover:text-red-400 px-1">✕</button>
+      <button type="button" data-action="edit" class="text-slate-500 hover:text-indigo-400 px-1 transition-colors">✎</button>
+      <button type="button" data-action="remove" class="text-slate-500 hover:text-red-400 px-1 transition-colors">✕</button>
     `
     list.appendChild(li)
   })
@@ -100,8 +100,8 @@ export function renderRunningView(state, plannedSchedule, now, isPaused) {
   state.tasks.forEach((task) => {
     const li = document.createElement('li')
     li.dataset.id = task.id
-    li.className = `flex items-center gap-2 rounded-lg border px-3 py-2 ${
-      task.done ? 'bg-slate-900 border-slate-800 text-slate-500' : 'bg-slate-800 border-slate-700'
+    li.className = `flex items-center gap-2 rounded-xl border px-3 py-2 shadow-sm transition-colors ${
+      task.done ? 'bg-slate-900/60 border-slate-800 text-slate-500' : 'bg-slate-800/80 border-slate-700'
     }`
     li.innerHTML = `
       <span class="flex-1 truncate ${task.done ? 'line-through' : ''}">${escapeHtml(task.name)}</span>
@@ -109,7 +109,7 @@ export function renderRunningView(state, plannedSchedule, now, isPaused) {
       ${
         task.done
           ? '<span class="text-emerald-400 text-sm px-1">✓</span>'
-          : '<button type="button" data-action="done" class="text-xs rounded-md bg-emerald-600 px-2 py-1">Done</button>'
+          : '<button type="button" data-action="done" class="text-xs rounded-md bg-emerald-600 px-2 py-1 shadow-sm transition-colors hover:bg-emerald-500 active:scale-[0.97]">Done</button>'
       }
     `
     list.appendChild(li)
@@ -133,13 +133,13 @@ export function renderRunningView(state, plannedSchedule, now, isPaused) {
     banner.classList.remove('hidden')
     if (delta > 0) {
       banner.textContent = `${delta} min behind schedule`
-      banner.className = 'rounded-lg px-4 py-2 text-center font-medium bg-red-900/60 text-red-300'
+      banner.className = 'rounded-xl px-4 py-2 text-center font-medium transition-colors bg-red-900/60 border border-red-800/50 text-red-300'
     } else if (delta < 0) {
       banner.textContent = `${-delta} min ahead of schedule`
-      banner.className = 'rounded-lg px-4 py-2 text-center font-medium bg-emerald-900/60 text-emerald-300'
+      banner.className = 'rounded-xl px-4 py-2 text-center font-medium transition-colors bg-emerald-900/60 border border-emerald-800/50 text-emerald-300'
     } else {
       banner.textContent = 'On schedule'
-      banner.className = 'rounded-lg px-4 py-2 text-center font-medium bg-slate-800 text-slate-300'
+      banner.className = 'rounded-xl px-4 py-2 text-center font-medium transition-colors bg-slate-800/80 border border-slate-700 text-slate-300'
     }
   }
 }
