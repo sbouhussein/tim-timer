@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="data:," />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#0f172a" />
+    <title>Tim's Timer</title>
+  </head>
+  <body class="bg-slate-950 text-slate-100 min-h-screen">
+    <div id="app" class="max-w-lg mx-auto px-4 py-6 pb-24">
+      <h1 class="text-2xl font-bold mb-6">Tim's Timer</h1>
+
+      <div id="toast" class="hidden fixed top-4 left-1/2 -translate-x-1/2 z-50 rounded-lg bg-amber-500 text-slate-950 font-semibold px-4 py-2 shadow-lg"></div>
+
+      <!-- SETUP VIEW -->
+      <section id="setup-view" class="space-y-6">
+        <div class="flex items-end gap-3">
+          <div class="flex-1">
+            <label class="block text-sm text-slate-400 mb-1" for="deadline-input">Be done by</label>
+            <input id="deadline-input" type="time" class="w-full rounded-lg bg-slate-800 border border-slate-700 px-3 py-2" />
+          </div>
+          <div class="flex-1 text-right">
+            <div class="text-sm text-slate-400">Start by</div>
+            <div id="start-by-readout" class="text-2xl font-semibold tabular-nums">--:--</div>
+          </div>
+        </div>
+
+        <form id="add-task-form" class="flex gap-2">
+          <input id="task-name-input" type="text" placeholder="Task name" required
+            class="flex-1 min-w-0 rounded-lg bg-slate-800 border border-slate-700 px-3 py-2" />
+          <input id="task-estimate-input" type="number" min="1" step="1" placeholder="min" required
+            class="w-20 rounded-lg bg-slate-800 border border-slate-700 px-3 py-2" />
+          <button type="submit" class="rounded-lg bg-indigo-600 px-4 py-2 font-medium">Add</button>
+        </form>
+
+        <ul id="task-list" class="space-y-2"></ul>
+
+        <div class="flex gap-2 border-t border-slate-800 pt-4">
+          <select id="template-select"
+            class="flex-1 min-w-0 rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm">
+            <option value="">Load template…</option>
+          </select>
+          <button id="load-template-button" type="button"
+            class="rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm">Load</button>
+          <button id="delete-template-button" type="button" disabled
+            class="rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm disabled:opacity-40">Delete</button>
+          <button id="save-template-button" type="button"
+            class="rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm whitespace-nowrap">Save as…</button>
+        </div>
+
+        <button id="start-button" disabled
+          class="w-full rounded-lg bg-emerald-600 disabled:bg-slate-700 disabled:text-slate-500 py-3 font-semibold text-lg">
+          Start
+        </button>
+      </section>
+
+      <!-- RUNNING VIEW -->
+      <section id="running-view" class="hidden space-y-6">
+        <div id="delta-banner" class="rounded-lg px-4 py-2 text-center font-medium"></div>
+
+        <div id="overrun-banner" class="hidden rounded-lg px-4 py-2 bg-amber-900/60 text-amber-200 space-y-2">
+          <p id="overrun-banner-text" class="text-center text-sm font-medium"></p>
+          <button id="shrink-plan-button" type="button"
+            class="w-full rounded-md bg-amber-500 text-slate-950 font-semibold text-sm py-1.5">
+            Shrink remaining tasks
+          </button>
+        </div>
+
+        <div class="text-center space-y-1">
+          <div class="text-sm text-slate-400 flex items-center justify-center gap-2">
+            <span>Working on</span>
+            <span id="paused-pill" class="hidden text-amber-300 bg-amber-900/60 rounded-full px-2 py-0.5 text-xs font-semibold">Paused</span>
+          </div>
+          <div id="current-task-name" class="text-3xl font-bold">—</div>
+          <div id="current-task-time-left" class="text-5xl font-bold tabular-nums mt-2">--:--</div>
+        </div>
+
+        <div class="flex justify-between text-sm text-slate-400 border-t border-slate-800 pt-3">
+          <span>Next: <span id="next-task-name">—</span></span>
+          <span>Total left: <span id="total-time-left" class="tabular-nums text-slate-200">--:--</span></span>
+        </div>
+
+        <ul id="running-task-list" class="space-y-2"></ul>
+
+        <div class="flex gap-2">
+          <button id="pause-button" class="flex-1 rounded-lg bg-slate-800 py-2 text-sm font-medium">
+            Pause
+          </button>
+          <button id="reset-button" class="flex-1 rounded-lg bg-slate-800 py-2 text-sm text-slate-400">
+            Reset
+          </button>
+        </div>
+      </section>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

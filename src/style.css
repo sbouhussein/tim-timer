@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+.drag-handle {
+  cursor: grab;
+  touch-action: none;
+}
+
+.sortable-ghost {
+  opacity: 0.4;
+}
